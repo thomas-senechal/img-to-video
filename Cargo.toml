@@ -1,0 +1,23 @@
+[package]
+name = "img-to-video"
+description = "Convert a sequence of images to a video."
+version = "0.1.0"
+authors = ["Thomas Sénéchal <thomas-senechal@pm.me>"]
+repository = "https://github.com/thomas-senechal/img-to-video"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { version = "4.1", features = ["derive"] }
+serde = "1.0.152"
+serde_derive = "1.0.152"
+toml = "0.5"
+
+image = "0.24"
+vpx-encode = { version = "0.6", features = ["vp9"] }
+webm = "1.0"
+
+log = "0.4"
+env_logger = "0.10"
+thiserror = "1.0.38"
