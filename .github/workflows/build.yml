@@ -7,6 +7,11 @@ on:
       - v[0-9]+.*
   pull_request:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Tag to release'
+        type: string
 
 jobs:
   lint:
@@ -53,7 +58,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.target }}-release
+          name: ${{ matrix.target }}-binary
           path: |
             ./target/${{ matrix.target }}/release/img-to-video.exe
             ./target/${{ matrix.target }}/release/img-to-video

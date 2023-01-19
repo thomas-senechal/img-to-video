@@ -1,0 +1,42 @@
+name: Release a new version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release'
+        type: string
+        required: true
+        default: '0.0.0'
+      as-draft:
+        description: 'Release as draft'
+        required: false
+        type: boolean
+        default: true
+      as-pre-release:
+        description: 'Release as pre-release'
+        required: false
+        type: boolean
+        default: true
+      generate-changelog:
+        description: 'Generate changelog'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      tag: ${{ github.event.inputs.version }}
+
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: ${{ github.event.inputs.version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: ${{ github.event.inputs.as-draft }}
+          prerelease: ${{ github.event.inputs.as-pre-release }}
