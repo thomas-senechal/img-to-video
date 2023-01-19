@@ -24,12 +24,11 @@ struct YUVPixel {
 /// ```
 fn convert_rgb_to_yuv420_pixel(r: f32, g: f32, b: f32) -> YUVPixel {
     YUVPixel {
-        y: ((77_f32 * r + 150_f32 * g + 29_f32 * b + 128.0) as i32 >> 8).clamp(0, 255)
+        y: ((77_f32 * r + 150_f32 * g + 29_f32 * b + 128.0) as i32 >> 8).clamp(0, 255) as u8,
+        u: (((-43_f32 * r - 84_f32 * g + 127_f32 * b + 128.0) as i32 >> 8) + 128).clamp(0, 255)
             as u8,
-        u: (((-43_f32 * r - 84_f32 * g + 127_f32 * b + 128.0) as i32 >> 8) + 128)
-            .clamp(0, 255) as u8,
-        v: (((127_f32 * r - 106_f32 * g - 21_f32 * b + 128.0) as i32 >> 8) + 128)
-            .clamp(0, 255) as u8,
+        v: (((127_f32 * r - 106_f32 * g - 21_f32 * b + 128.0) as i32 >> 8) + 128).clamp(0, 255)
+            as u8,
     }
 }
 

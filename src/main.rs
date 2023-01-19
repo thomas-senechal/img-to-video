@@ -112,10 +112,7 @@ fn img_to_webm(settings: settings::Settings) -> Result<()> {
         );
         let ms = 1_000 / settings.video_settings.fps * index as u64;
 
-        for frame in vpx
-            .encode(ms as i64, &yuv)
-            .map_err(Error::Encoder)?
-        {
+        for frame in vpx.encode(ms as i64, &yuv).map_err(Error::Encoder)? {
             vt.add_frame(frame.data, frame.pts as u64 * 1_000_000, frame.key);
         }
     }

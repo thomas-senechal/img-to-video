@@ -1,0 +1,34 @@
+name: Install prerequisites
+
+inputs:
+  os:
+    description: 'Operating system'
+    required: true
+    default: ubuntu-latest
+
+runs:
+  using: composite
+  steps:
+    - name: Install prerequisites for MacOS
+      shell: bash
+      if: startsWith(inputs.os, 'macos-')
+      run: |
+        brew install libvpx
+
+    - name: Install prerequisites for Ubuntu
+      shell: bash
+      if: startsWith(inputs.os, 'ubuntu-')
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y libvpx-dev libxcb-randr0-dev libxv-dev libvdpau-dev libxcb-shm0-dev
+
+    - name: Install prerequisites for Windows
+      shell: pwsh
+      if: startsWith(inputs.os, 'windows-')
+      run: |
+        curl -sSfL -O https://github.com/ShiftMediaProject/libvpx/releases/download/v1.12.0/libvpx_v1.12.0_msvc16.zip
+        unzip libvpx_v1.12.0_msvc16.zip -d $HOME\unzipped
+        Add-Content -Path $env:GITHUB_ENV -Value "VPX_STATIC=1"
+        Add-Content -Path $env:GITHUB_ENV -Value "VPX_VERSION=1.12.0"
+        Add-Content -Path $env:GITHUB_ENV -Value "VPX_LIB_DIR=$HOME\unzipped\lib\x64"
+        Add-Content -Path $env:GITHUB_ENV -Value "VPX_INCLUDE_DIR=$HOME\unzipped\include"
