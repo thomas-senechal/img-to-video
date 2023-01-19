@@ -54,4 +54,15 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.target }}-release
-          path: target/${{ matrix.target }}/release/*.exe
+          path: |
+            ./target/${{ matrix.target }}/release/img-to-video.exe
+            ./target/${{ matrix.target }}/release/img-to-video
+
+      - name: Upload binaries to GitHub release
+        if: inputs.tag != ''
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./target/${{ matrix.target }}/release/img-to-video.exe
+            ./target/${{ matrix.target }}/release/img-to-video
+          tag_name: ${{ inputs.tag }}
